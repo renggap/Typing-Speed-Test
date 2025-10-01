@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Test UI Reference</title>
+   
+    <script src="https://cdn.tailwindcss.com"></script>
+   
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f3f4; /* Google-inspired light gray */
+            color: #202124; /* Google-inspired dark gray */
+        }
+        .dark-mode body {
+            background-color: #202124;
+            color: #e8eaed;
+        }
+        .typing-area {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+        }
+        .correct-char { color: #1e8e3e; } /* Green */
+        .incorrect-char { color: #d93025; } /* Red */
+        .untyped-char { color: #5f6368; } /* Gray */
+        .current-word { font-weight: 700; }
+        .caret {
+            background-color: #1a73e8; /* Google Blue */
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="p-8">
+
+    <div class="max-w-4xl mx-auto py-12">
+
+        <header class="flex justify-between items-center mb-12">
+            <h1 class="text-3xl font-bold">Typing Speed Test</h1>
+            <div class="flex items-center space-x-4">
+                <button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <span class="material-icons">light_mode</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="flex items-center justify-center space-x-6 mb-8">
+            <div class="flex space-x-2 bg-gray-200 dark:bg-gray-800 p-1 rounded-full">
+                <button class="px-4 py-2 rounded-full font-medium text-sm transition-colors bg-[#1a73e8] text-white shadow-md">15s</button>
+                <button class="px-4 py-2 rounded-full font-medium text-sm hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">30s</button>
+                <button class="px-4 py-2 rounded-full font-medium text-sm hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">60s</button>
+                <button class="px-4 py-2 rounded-full font-medium text-sm hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">120s</button>
+            </div>
+        </div>
+
+        <div class="relative p-10 rounded-2xl glassmorphism shadow-xl transition-all duration-500">
+            <p class="typing-area text-xl leading-relaxed">
+                <span class="correct-char">A</span><span class="correct-char">c</span><span class="correct-char">t</span><span class="correct-char">u</span><span class="correct-char">a</span><span class="correct-char">l</span><span class="correct-char">l</span><span class="correct-char">y</span><span class="correct-char"> </span><span class="correct-char">e</span><span class="correct-char">v</span><span class="incorrect-char">e</span><span class="correct-char">r</span><span class="correct-char">y</span><span class="correct-char">o</span><span class="correct-char">n</span><span class="incorrect-char">e</span><span class="correct-char"> </span><span class="incorrect-char">i</span><span class="correct-char">s</span><span class="correct-char"> </span><span class="current-word">
+                    <span class="relative">
+                        <span class="untyped-char">w</span><span class="untyped-char">o</span><span class="untyped-char">r</span><span class="untyped-char">k</span><span class="untyped-char">i</span><span class="untyped-char">n</span><span class="untyped-char">g</span><span class="untyped-char"> </span><span class="untyped-char">o</span><span class="untyped-char">n</span><span class="untyped-char"> </span><span class="untyped-char">s</span><span class="untyped-char">o</span><span class="untyped-char">m</span><span class="untyped-char">e</span><span class="untyped-char">t</span><span class="untyped-char">h</span><span class="untyped-char">i</span><span class="untyped-char">n</span><span class="untyped-char">g</span>
+                        <span class="absolute inset-y-0 -left-1 w-0.5 h-full rounded-full caret"></span>
+                    </span>
+                </span>
+                <span class="untyped-char"> </span><span class="untyped-char">t</span><span class="untyped-char">h</span><span class="untyped-char">a</span><span class="untyped-char">t</span><span class="untyped-char"> </span><span class="untyped-char">i</span><span class="untyped-char">s</span><span class="untyped-char"> </span><span class="untyped-char">r</span><span class="untyped-char">e</span><span class="untyped-char">a</span><span class="untyped-char">l</span><span class="untyped-char">l</span><span class="untyped-char">y</span><span class="untyped-char"> </span><span class="untyped-char">w</span><span class="untyped-char">o</span><span class="untyped-char">r</span><span class="untyped-char">t</span><span class="untyped-char">h</span><span class="untyped-char">w</span><span class="untyped-char">h</span><span class="untyped-char">i</span><span class="untyped-char">l</span><span class="untyped-char">e</span><span class="untyped-char">.</span><span class="untyped-char">.</span><span class="untyped-char">.</span>
+            </p>
+        </div>
+
+        <div class="flex justify-between items-center mt-8">
+            <div class="text-xl font-medium space-x-6">
+                <span class="text-[#1a73e8]">WPM: 72</span>
+                <span>Accuracy: 95%</span>
+            </div>
+            <button class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-6 py-3 rounded-full font-medium transition-colors hover:bg-gray-300 dark:hover:bg-gray-600">
+                <span class="material-icons text-xl align-middle">refresh</span>
+                Restart
+            </button>
+        </div>
+    </div>
+
+    <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="display: none;">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 w-full max-w-md text-center shadow-2xl scale-95 transition-all duration-300">
+            <div class="flex flex-col items-center">
+                <span class="material-icons text-5xl text-[#1e8e3e] mb-4">emoji_events</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-2 text-[#1a73e8]">72 WPM</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300 font-medium">Rank: Expert 🚀</p>
+                <div class="w-24 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full my-4"></div>
+            </div>
+
+            <div class="flex flex-col space-y-4 text-left text-gray-700 dark:text-gray-300 mt-6">
+                <div class="flex justify-between items-center">
+                    <span class="font-medium">Accuracy</span>
+                    <span class="text-lg font-bold">95%</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-medium">Errors</span>
+                    <span class="text-lg font-bold text-red-500">3</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-medium">Time</span>
+                    <span class="text-lg font-bold">60s</span>
+                </div>
+            </div>
+
+            <div class="flex justify-center space-x-4 mt-8">
+                <button class="bg-[#1a73e8] text-white px-6 py-3 rounded-full font-bold hover:bg-[#155cb7] transition-colors">
+                    Try Again
+                </button>
+                <button class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-6 py-3 rounded-full font-bold transition-colors hover:bg-gray-300 dark:hover:bg-gray-600">
+                    <span class="material-icons text-xl align-middle mr-1">share</span>
+                    Share
+                </button>
+            </div>
+        </div>
+    </div>
+   
+</body>
+</html>

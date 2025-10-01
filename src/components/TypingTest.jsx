@@ -272,44 +272,74 @@ const TypingTest = ({ duration = 60, onTestComplete }) => {
     };
   }, []);
 
-  // Render character with highlighting
-  const renderText = () => {
-    return currentText.split('').map((char, index) => {
-      let textColor = 'rgb(var(--text-muted))'; // Unreached text
-      let backgroundColor = 'transparent';
+  // Render character with Google-style highlighting
+   const renderText = () => {
+     const currentIndex = typedText.length;
 
-      if (index < typedText.length) {
-        // Already typed characters
-        if (typedText[index] === char) {
-          textColor = 'rgb(var(--success-600))';
-          backgroundColor = 'rgba(var(--success-100), 0.3)';
-        } else {
-          textColor = 'rgb(var(--error-600))';
-          backgroundColor = 'rgba(var(--error-100), 0.3)';
-        }
-      } else if (index === typedText.length) {
-        // Current character to type
-        textColor = 'rgb(var(--text-primary))';
-        backgroundColor = 'rgb(var(--bg-tertiary))';
-      }
+     // Find current word boundaries
+     const getCurrentWordRange = () => {
+       if (currentIndex >= currentText.length) return { start: currentText.length, end: currentText.length };
 
-      return (
-        <span
-          key={index}
-          className={`theme-transition ${char === ' ' ? 'mr-1' : ''}`}
-          style={{
-            color: textColor,
-            backgroundColor: backgroundColor,
-            padding: '2px 4px',
-            borderRadius: '4px',
-            animation: index === typedText.length ? 'pulse 2s infinite' : 'none'
-          }}
-        >
-          {char === ' ' ? '\u00A0' : char}
-        </span>
-      );
-    });
-  };
+       let start = currentIndex;
+       let end = currentIndex;
+
+       // Find start of current word
+       while (start > 0 && currentText[start - 1] !== ' ') {
+         start--;
+       }
+
+       // Find end of current word
+       while (end < currentText.length && currentText[end] !== ' ') {
+         end++;
+       }
+
+       return { start, end };
+     };
+
+     const { start: wordStart, end: wordEnd } = getCurrentWordRange();
+
+     return currentText.split('').map((char, index) => {
+       let className = 'typing-char';
+       let isCurrentWord = index >= wordStart && index < wordEnd;
+
+       if (index < currentIndex) {
+         // Already typed characters
+         if (typedText[index] === char) {
+           className = 'correct-char';
+         } else {
+           className = 'incorrect-char';
+         }
+       } else if (isCurrentWord) {
+         // Current word - untyped but highlighted
+         className = 'current-word';
+       } else {
+         // Untyped characters (not in current word)
+         className = 'untyped-char';
+       }
+
+       // Add caret for current character position
+       const isCurrentChar = index === currentIndex;
+
+       return (
+         <span key={index} className={`${className} ${char === ' ' ? 'mr-1' : ''} relative`}>
+           {char === ' ' ? '\u00A0' : char}
+           {isCurrentChar && (
+             <span
+               className="caret absolute"
+               style={{
+                 left: char === ' ' ? '-2px' : '-1px',
+                 top: 0,
+                 bottom: 0,
+                 width: char === ' ' ? '4px' : '2px',
+                 backgroundColor: '#1a73e8',
+                 animation: 'blink 1s step-end infinite'
+               }}
+             />
+           )}
+         </span>
+       );
+     });
+   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 card" role="region" aria-labelledby="typing-test-title">
@@ -439,11 +469,13 @@ const TypingTest = ({ duration = 60, onTestComplete }) => {
         )}
 
         <div
-          className="rounded-lg p-6 min-h-[120px] font-mono text-lg leading-relaxed theme-transition"
-          style={{
-            backgroundColor: 'rgb(var(--bg-tertiary))',
-            border: '2px solid rgb(var(--border-primary))'
-          }}
+           className="rounded-2xl p-8 min-h-[140px] typing-container theme-transition"
+           style={{
+             fontFamily: 'JetBrains Mono, monospace',
+             fontSize: '1.25rem',
+             lineHeight: '1.6',
+             letterSpacing: '0.025em'
+           }}
           role="textbox"
           aria-multiline="true"
           aria-label={`Typing test text${currentText ? ': ' + currentText.length + ' characters' : ': waiting for test to start'}`}

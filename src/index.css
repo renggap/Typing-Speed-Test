@@ -4,34 +4,54 @@
 
 @layer base {
   :root {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', sans-serif;
 
-    /* Light theme colors - WCAG AA compliant */
-    --bg-primary: 255 255 255; /* white */
-    --bg-secondary: 248 250 252; /* neutral-50 */
-    --bg-tertiary: 241 245 249; /* neutral-100 */
+    /* Google-inspired color variables */
+    --google-blue: 26 115 232; /* #1a73e8 */
+    --google-green: 30 142 62; /* #1e8e3e */
+    --google-red: 217 48 37; /* #d93025 */
+    --google-gray: 95 99 104; /* #5f6368 */
+    --google-bg-light: 241 243 244; /* #f1f3f4 */
+    --google-bg-dark: 32 33 36; /* #202124 */
+
+    /* Light theme colors - Google inspired */
+    --bg-primary: var(--google-bg-light);
+    --bg-secondary: 255 255 255; /* white for cards/containers */
+    --bg-tertiary: 248 250 252; /* neutral-50 */
     --text-primary: 15 23 42; /* neutral-900 - improved contrast */
     --text-secondary: 51 65 85; /* neutral-700 - improved contrast */
-    --text-muted: 100 116 139; /* neutral-500 - meets AA standards */
+    --text-muted: var(--google-gray);
     --border-primary: 226 232 240; /* neutral-200 */
     --border-secondary: 148 163 184; /* neutral-400 */
     --shadow-color: 0 0 0;
+
+    /* Typing test specific colors */
+    --color-primary: var(--google-blue);
+    --color-success: var(--google-green);
+    --color-error: var(--google-red);
+    --color-untyped: var(--google-gray);
 
     /* Theme transition */
     --transition-speed: 200ms;
   }
 
   :root[data-theme="dark"] {
-    /* Dark theme colors - WCAG AA compliant */
-    --bg-primary: 15 23 42; /* neutral-900 */
-    --bg-secondary: 30 41 59; /* neutral-800 */
-    --bg-tertiary: 51 65 85; /* neutral-700 */
+    /* Dark theme colors - Google inspired */
+    --bg-primary: var(--google-bg-dark);
+    --bg-secondary: 41 42 46; /* slightly lighter than bg-primary for cards */
+    --bg-tertiary: 55 57 62; /* for tertiary elements */
     --text-primary: 248 250 252; /* neutral-50 - improved contrast */
     --text-secondary: 226 232 240; /* neutral-200 - improved contrast */
-    --text-muted: 148 163 184; /* neutral-400 - meets AA standards */
+    --text-muted: 158 160 165; /* lighter gray for dark mode */
     --border-primary: 71 85 105; /* neutral-600 */
     --border-secondary: 100 116 139; /* neutral-500 */
     --shadow-color: 0 0 0;
+
+    /* Typing test specific colors for dark mode */
+    --color-primary: var(--google-blue);
+    --color-success: var(--google-green);
+    --color-error: var(--google-red);
+    --color-untyped: 158 160 165; /* lighter gray for dark mode */
   }
 
   body {
@@ -200,5 +220,232 @@
 
   .border-high-contrast {
     border-color: rgb(var(--border-primary)) !important;
+  }
+
+  /* Google-inspired typing test styles */
+  .typing-container {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .typing-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(26, 115, 232, 0.05) 0%, rgba(30, 142, 62, 0.05) 100%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  :root[data-theme="dark"] .typing-container {
+    background: rgba(41, 42, 46, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Character highlighting styles */
+  .char-correct {
+    color: rgb(var(--color-success));
+    background-color: rgba(30, 142, 62, 0.15);
+    padding: 0.1em 0.2em;
+    border-radius: 3px;
+    transition: all var(--transition-speed) ease-in-out;
+  }
+
+  .char-incorrect {
+    color: rgb(var(--color-error));
+    background-color: rgba(217, 48, 37, 0.15);
+    padding: 0.1em 0.2em;
+    border-radius: 3px;
+    text-decoration: underline;
+    text-decoration-color: rgb(var(--color-error));
+    transition: all var(--transition-speed) ease-in-out;
+  }
+
+  .char-current {
+    background-color: rgb(var(--color-primary));
+    color: white;
+    padding: 0.1em 0.2em;
+    border-radius: 3px;
+    animation: pulse 2s infinite;
+    position: relative;
+  }
+
+  .char-current::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: rgb(var(--color-primary));
+    animation: blink 1s infinite;
+  }
+
+  .char-untyped {
+    color: rgb(var(--color-untyped));
+    transition: color var(--transition-speed) ease-in-out;
+  }
+
+  /* Current word styling */
+  .word-current {
+    background-color: rgba(26, 115, 232, 0.1);
+    padding: 0.2em 0.4em;
+    border-radius: 6px;
+    border-left: 3px solid rgb(var(--color-primary));
+    margin: 0 0.1em;
+    transition: all var(--transition-speed) ease-in-out;
+  }
+
+  /* Google-style typing character classes */
+  .typing-char {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    letter-spacing: 0.025em;
+    position: relative;
+    display: inline-block;
+  }
+
+  .correct-char {
+    color: #1e8e3e; /* Google green */
+    transition: color 0.2s ease-in-out;
+  }
+
+  .incorrect-char {
+    color: #d93025; /* Google red */
+    transition: color 0.2s ease-in-out;
+  }
+
+  .untyped-char {
+    color: #5f6368; /* Google gray */
+    transition: color 0.2s ease-in-out;
+  }
+
+  .current-word {
+    font-weight: 700; /* Bold */
+    color: #202124; /* Darker for emphasis */
+    background-color: rgba(26, 115, 232, 0.1); /* Light blue background */
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    margin: 0 0.1em;
+    transition: all 0.2s ease-in-out;
+  }
+
+  :root[data-theme="dark"] .current-word {
+    color: #e8eaed; /* Light color for dark mode */
+    background-color: rgba(26, 115, 232, 0.2); /* Slightly more opaque for dark mode */
+  }
+
+  .caret {
+    background-color: #1a73e8; /* Google blue */
+    animation: blink 1s step-end infinite;
+    border-radius: 1px;
+  }
+
+  /* Animated caret */
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      background-color: rgb(var(--color-primary));
+      transform: scale(1);
+    }
+    50% {
+      background-color: rgba(26, 115, 232, 0.8);
+      transform: scale(1.05);
+    }
+  }
+
+  /* Typing area text styling */
+  .typing-text {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    letter-spacing: 0.025em;
+    text-align: left;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  /* Results styling */
+  .results-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+  }
+
+  :root[data-theme="dark"] .results-card {
+    background: rgba(41, 42, 46, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Stats display styling */
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: rgb(var(--color-primary));
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: rgb(var(--text-muted));
+    font-weight: 500;
+  }
+
+  /* Progress bar styling */
+  .progress-bar {
+    background: rgba(26, 115, 232, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 4px;
+    position: relative;
+  }
+
+  .progress-fill {
+    background: linear-gradient(90deg, rgb(var(--color-primary)) 0%, rgb(var(--color-success)) 100%);
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.3s ease-in-out;
+    position: relative;
+  }
+
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
   }
 }
